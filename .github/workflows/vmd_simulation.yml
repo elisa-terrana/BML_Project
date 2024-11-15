@@ -16,7 +16,7 @@ jobs:
   run-vmd:
     runs-on: ubuntu-latest
     container:
-        image: afandiadib/vmd
+        image: afandiadib/vmd:latest
 
     steps:
       - name: Checkout Repository
