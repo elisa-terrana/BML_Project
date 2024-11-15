@@ -5,6 +5,8 @@ on: [push, pull_request]
 jobs:
   run-vmd:
     runs-on: ubuntu-latest
+    container:
+      image: afandiadib/vmd:latest
     
     steps:
       - name: Checkout Repository
@@ -13,7 +15,6 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y vmd
 
       - name: Run VMD Script
         run: |
