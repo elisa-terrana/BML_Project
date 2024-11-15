@@ -17,7 +17,7 @@ jobs:
 
       - name: Run VMD Script
         run: |
-          vmd -dispdev text -e set_protein.tcl
+          vmd -dispdev text -args 5rsa.pdb -e set_protein.tcl
 
       - name: Run Second TCL Script
         run: |
