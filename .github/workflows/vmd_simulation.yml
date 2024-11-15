@@ -14,9 +14,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
     
   run-vmd:
-    runs-on: ubuntu-latest
+    needs: login
     container:
-        image: afandiadib/vmd:latest
+      image: afandiadib/vmd:latest
 
     steps:
       - name: Checkout Repository
