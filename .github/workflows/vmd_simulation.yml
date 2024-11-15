@@ -1,0 +1,44 @@
+name: Simulation
+
+on: [push, pull_request]
+
+jobs:
+  run-vmd:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y vmd
+
+      - name: Run VMD Script
+        run: |
+          vmd -dispdev text -e set_protein.tcl
+
+      - name: Run Second TCL Script
+        run: |
+          vmd -dispdev text -args protein.pdb -e psfgen.tcl
+
+      - name: Run Third TCL Script
+        run: |
+          vmd -dispdev text -args system.psf system.pdb -e solvate.tcl
+
+      - name: Run 4 TCL Script
+        run: |
+          vmd -dispdev text -args solvated.psf solvated.pdb -e ionize.tcl
+
+      - name: Run 5 TCL Script
+        run: |
+          vmd -dispdev text -args ionized.psf ionized.pdb -e simulate.tcl
+
+      # Optional: Upload output files as artifacts
+      - name: Upload Outputs
+        uses: actions/upload-artifact@v3
+        with:
+          name: simulation-results
+          path: path/to/output/directory
+
