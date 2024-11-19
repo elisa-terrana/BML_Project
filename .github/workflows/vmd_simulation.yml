@@ -28,11 +28,10 @@ jobs:
       - name: Pull and run the Docker image
         run: |
           docker pull activeeon/vmd
-          docker run activeeon/vmd
-
+          
       - name: Run VMD Script
         run: |
-          vmd -dispdev text -args 5rsa.pdb -e set_protein.tcl
+          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text 5rsa.pdb -e set_protein.tcl
 
       - name: Run Second TCL Script
         run: |
