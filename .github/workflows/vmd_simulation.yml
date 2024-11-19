@@ -35,24 +35,23 @@ jobs:
 
       - name: Run Second TCL Script
         run: |
-          vmd -dispdev text -args protein.pdb -e psfgen.tcl
+          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args protein.pdb -e psfgen.tcl
 
       - name: Run Third TCL Script
         run: |
-          vmd -dispdev text -args system.psf system.pdb -e solvate.tcl
+          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args system.psf system.pdb -e solvate.tcl
 
       - name: Run 4 TCL Script
         run: |
-          vmd -dispdev text -args solvated.psf solvated.pdb -e ionize.tcl
+          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args solvated.psf solvated.pdb -e ionize.tcl
 
       - name: Run 5 TCL Script
         run: |
-          vmd -dispdev text -args ionized.psf ionized.pdb -e simulate.tcl
+          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args ionized.psf ionized.pdb -e simulate.tcl
 
       # Optional: Upload output files as artifacts
       - name: Upload Outputs
         uses: actions/upload-artifact@v3
         with:
           name: simulation-results
-          path: path/to/output/directory
 
