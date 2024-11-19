@@ -34,6 +34,13 @@ jobs:
           TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
           OUTPUT_DIR=${{ github.workspace }}/output_$TIMESTAMP
           echo "OUTPUT_DIR=$OUTPUT_DIR" >> $GITHUB_ENV
+
+      - name: Run the VMD script inside Docker with debugging
+        run: |
+          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd sh -c "
+            mkdir -p /workspace/output_$TIMESTAMP && \
+            vmd -dispdev text 5rsa.pdb -e set_protein.tcl -o /workspace/output_$TIMESTAMP && \
+            ls -l /workspace/output_$TIMESTAMP"
           
       - name: Run VMD Script
         run: |
