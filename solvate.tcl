@@ -1,5 +1,5 @@
-mol new system.psf
-mol addfile system.pdb
+mol new output/system.psf
+mol addfile output/system.pdb
 
 package require solvate
-solvate system.psf system.pdb -t 5 -o solvated
+solvate output/system.psf output/system.pdb -t 5 -o solvated

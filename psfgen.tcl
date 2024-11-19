@@ -1,9 +1,9 @@
 package require psfgen
-topology top_all27_prot_lipid.inp
+topology common/top_all27_prot_lipid.inp
 pdbalias residue HIS HSE
 pdbalias ILE CD1 CD
-segment U {pdb protein.pdb}
-coordpdb protein.pdb U
+segment U {pdb output/protein.pdb}
+coordpdb output/protein.pdb U
 guesscoord
-writepdb system.pdb
-writepsf system.psf
+writepdb output/system.pdb
+writepsf output/system.psf

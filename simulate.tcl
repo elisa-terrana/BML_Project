@@ -1,5 +1,5 @@
-mol new ionized.psf
-mol addfile ionized.pdb
+mol new output/ionized.psf
+mol addfile output/ionized.pdb
 
 set all [atomselect top all]
 
@@ -13,7 +13,7 @@ set diff_x [expr {[lindex $max 0] - [lindex $min 0]}]
 set diff_y [expr {[lindex $max 1] - [lindex $min 1]}]
 set diff_z [expr {[lindex $max 2] - [lindex $min 2]}]
 
-set outfile [open "boundary.txt" w]
+set outfile [open "output/boundary.txt" w]
 puts $outfile "MIN: [lindex $minmax 0]"
 puts $outfile "MAX: [lindex $minmax 1]"
 puts $outfile "  X: $diff_x"

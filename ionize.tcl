@@ -1,5 +1,5 @@
-mol new solvated.psf
-mol addfile solvated.pdb
+mol new output/solvated.psf
+mol addfile output/solvated.pdb
 
 package require autoionize
-autoionize -psf solvated.psf -pdb solvated.pdb -neutralize -o ionized
+autoionize -psf output/solvated.psf -pdb output/solvated.pdb -neutralize -o ionized
