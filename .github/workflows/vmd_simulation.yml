@@ -28,45 +28,32 @@ jobs:
       - name: Pull and run the Docker image
         run: |
           docker pull activeeon/vmd
-
-      - name: Generate timestamped output directory
-        run: |
-          TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
-          OUTPUT_DIR=${{ github.workspace }}/output_$TIMESTAMP
-          echo "OUTPUT_DIR=$OUTPUT_DIR" >> $GITHUB_ENV
-
-      - name: Run the VMD script inside Docker with debugging
-        run: |
-          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd sh -c "
-            mkdir -p /workspace/output_$TIMESTAMP && \
-            vmd -dispdev text 5rsa.pdb -e set_protein.tcl -o /workspace/output_$TIMESTAMP && \
-            ls -l /workspace/output_$TIMESTAMP"
           
       - name: Run VMD Script
         run: |
-          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text 5rsa.pdb -e set_protein.tcl -o /workspace/output_$TIMESTAMP
+          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text 5rsa.pdb -e set_protein.tcl -o /workspace/output
 
       - name: Run Second TCL Script
         run: |
-          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args protein.pdb -e psfgen.tcl -o /workspace/output_$TIMESTAMP
+          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args protein.pdb -e psfgen.tcl -o /workspace/output
 
       - name: Run Third TCL Script
         run: |
-          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args system.psf system.pdb -e solvate.tcl -o /workspace/output_$TIMESTAMP
+          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args system.psf system.pdb -e solvate.tcl -o /workspace/output
 
       - name: Run 4 TCL Script
         run: |
-          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args solvated.psf solvated.pdb -e ionize.tcl -o /workspace/output_$TIMESTAMP
+          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args solvated.psf solvated.pdb -e ionize.tcl -o /workspace/output
 
       - name: Run 5 TCL Script
         run: |
-          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args ionized.psf ionized.pdb -e simulate.tcl -o /workspace/output_$TIMESTAMP
+          docker run -v ${{ github.workspace }}:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args ionized.psf ionized.pdb -e simulate.tcl -o /workspace/output
 
       - name: List output directory contents
-        run: ls -l ${{ env.OUTPUT_DIR }}
+        run: ls -l ${{ github.workspace }}/output
 
       - name: Upload simulation results
         uses: actions/upload-artifact@v3
         with:
           name: simulation-results
-          path: ${{ env.OUTPUT_DIR }}
+          path: ${{ github.workspace }}/output
