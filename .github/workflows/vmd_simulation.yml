@@ -27,8 +27,8 @@ jobs:
 
       - name: Pull and run the Docker image
         run: |
-          docker pull afandiadib/vmd:latest
-          docker run afandiadib/vmd:latest
+          docker pull activeeon/vmd
+          docker run activeeon/vmd
 
       - name: Run VMD Script
         run: |
