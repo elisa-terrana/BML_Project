@@ -65,6 +65,12 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
+      - name: nvidia
+        run: |
+          sudo apt-get install -y curl gnupg lsb-release
+          curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/nvidia-archive-keyring.gpg] https://nvidia.github.io/nvidia-docker/$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
         
       - name: Install Dependencies
         run: |
