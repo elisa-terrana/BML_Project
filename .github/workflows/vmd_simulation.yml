@@ -27,7 +27,7 @@ jobs:
 
       - name: Pull and run the Docker image
         run: |
-          docker pull amdih/namd3
+          docker pull amdih/namd:2.15a2-20211101
           
       - name: Enter simulation folder and run 5rsa_wb_eq.conf
         run: |
