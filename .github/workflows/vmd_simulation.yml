@@ -15,8 +15,7 @@ jobs:
           
   run-simulation-conf:
     runs-on: ubuntu-latest
-    needs: 
-      - login
+    needs: login
 
     steps:
       - name: Checkout Repository
@@ -28,7 +27,7 @@ jobs:
 
       - name: Pull and run the Docker image
         run: |
-          docker pull alfpark/namd
+          docker pull amdih/namd
           
       - name: Enter simulation folder and run 5rsa_wb_eq.conf
         run: |
