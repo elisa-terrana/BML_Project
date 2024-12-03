@@ -55,7 +55,7 @@ jobs:
       - name: Upload simulation results
         uses: actions/upload-artifact@v3
         with:
-          name: simulation-results
+          name: setting-results
           path: ${{ github.workspace }}/output
           
   run-simulation-conf:
