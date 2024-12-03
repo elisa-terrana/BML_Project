@@ -70,6 +70,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y nvidia-container-toolkit
+          sudo systemctl restart docker
 
       - name: Pull and run the Docker image
         run: |
