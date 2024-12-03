@@ -81,16 +81,16 @@ jobs:
         run: |
           cd simulate
           docker run \
-          -v ${{ github.workspace }}/output:/workspace \
+          -v ${{ github.workspace }}/simulate:/workspace \
           -w /workspace \
           carlosred/namd-cpu:latest \
           namd2 +p2 5rsa_wb_eq.conf -o /workspace/output
           
       - name: List output directory contents
-        run: ls -l ${{ github.workspace }}/output
+        run: ls -l ${{ github.workspace }}/simulate/output
 
       - name: Upload simulation results
         uses: actions/upload-artifact@v3
         with:
           name: simulation-results
-          path: ${{ github.workspace }}/output
+          path: ${{ github.workspace }}/simulate/output
