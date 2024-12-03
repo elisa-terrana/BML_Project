@@ -69,7 +69,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          
+          sudo apt-get install -y nvidia-container-toolkit
 
       - name: Pull and run the Docker image
         run: |
@@ -79,6 +79,7 @@ jobs:
       - name: Run 5 TCL Script
         run: |
           cd simulate
+          docker run --gpus all nvidia/cuda:11.0-base nvidia-smi
           docker run --gpus all -v ${{ github.workspace }}/output:/workspace -w /workspace amdih/namd:2.15a2-20211101 namd2 +p8 5rsa_wb_eq.conf -o /workspace/output
 
       - name: List output directory contents
