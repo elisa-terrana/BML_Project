@@ -74,7 +74,7 @@ jobs:
 
       - name: Pull and run the Docker image
         run: |
-          docker pull amdih/namd
+          docker pull alfpark/namd
           
       - name: Enter simulation folder and run 5rsa_wb_eq.conf
         run: |
