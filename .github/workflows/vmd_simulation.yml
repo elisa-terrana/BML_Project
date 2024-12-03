@@ -66,17 +66,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: nvidia
-        run: |
-          sudo apt-get install -y curl gnupg lsb-release
-          curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-archive-keyring.gpg
-          echo "deb [signed-by=/usr/share/keyrings/nvidia-archive-keyring.gpg] https://nvidia.github.io/nvidia-docker/$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+      # - name: nvidia
+      #   run: |
+      #     sudo apt-get install -y curl gnupg lsb-release
+      #     curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-archive-keyring.gpg
+      #     echo "deb [signed-by=/usr/share/keyrings/nvidia-archive-keyring.gpg] https://nvidia.github.io/nvidia-docker/$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
         
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y nvidia-container-toolkit
-          sudo systemctl restart docker
+          # sudo apt-get install -y nvidia-container-toolkit
+          # sudo systemctl restart docker
 
       - name: Pull and run the Docker image
         run: |
@@ -86,8 +86,9 @@ jobs:
       - name: Run 5 TCL Script
         run: |
           cd simulate
-          docker run --gpus all nvidia/cuda:11.0-base nvidia-smi
-          docker run --gpus all -v ${{ github.workspace }}/output:/workspace -w /workspace amdih/namd:2.15a2-20211101 namd2 +p8 5rsa_wb_eq.conf -o /workspace/output
+          # docker run --gpus all nvidia/cuda:11.0-base nvidia-smi
+          # docker run --gpus all -v ${{ github.workspace }}/output:/workspace -w /workspace amdih/namd:2.15a2-20211101 namd2 +p8 5rsa_wb_eq.conf -o /workspace/output
+          docker run -v ${{ github.workspace }}/output:/workspace -w /workspace amdih/namd:2.15a2-20211101 namd2 +p8 5rsa_wb_eq.conf -o /workspace/output
 
       - name: List output directory contents
         run: ls -l ${{ github.workspace }}/output
