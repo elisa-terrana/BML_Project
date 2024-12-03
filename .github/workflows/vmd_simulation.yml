@@ -77,7 +77,7 @@ jobs:
       - name: Run 5 TCL Script
         run: |
           cd simulate
-          docker run -v ${{ github.workspace }}/output:/workspace -w /workspace amdih/namd:2.15a2-20211101 namd3 +p8 5rsa_wb_eq.conf -o /workspace/output
+          docker run -v ${{ github.workspace }}/output:/workspace -w /workspace amdih/namd:2.15a2-20211101 namd2 +p8 5rsa_wb_eq.conf -o /workspace/output
 
       - name: List output directory contents
         run: ls -l ${{ github.workspace }}/output
