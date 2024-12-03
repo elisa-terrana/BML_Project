@@ -84,13 +84,13 @@ jobs:
           -v ${{ github.workspace }}/simulate:/workspace \
           -w /workspace \
           carlosred/namd-cpu:latest \
-          namd2 +p4 5rsa_wb_eq.conf
+          namd2 +p4 5rsa_wb_eq.conf > eq.log &
           
       - name: List output directory contents
-        run: ls -l ${{ github.workspace }}/simulate/output
+        run: ls -l ${{ github.workspace }}/simulate
 
       - name: Upload simulation results
         uses: actions/upload-artifact@v3
         with:
           name: simulation-results
-          path: ${{ github.workspace }}/simulate/output
+          path: ${{ github.workspace }}/simulate
