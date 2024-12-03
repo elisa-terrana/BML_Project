@@ -66,8 +66,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Install NAMD
+        run: |
+          cd /tmp
+          wget https://www.ks.uiuc.edu/Research/namd/current/namd-2.14-Linux-x86_64-multicore.tar.gz
+          tar -xvf namd-2.14-Linux-x86_64-multicore.tar.gz
+          sudo mv namd-2.14-Linux-x86_64-multicore /opt/namd
+
+      - name: Add NAMD to PATH
+        run: echo "export PATH=/opt/namd:\$PATH" >> $GITHUB_ENV
+
       - name: Enter simulation folder and run 5rsa_wb_eq.conf
         run: |
-          cd simulate
-          sudo apt-get update && sudo apt-get install -y namd
+          cd simulation
           namd2 +p8 5rsa_wb_eq.conf
