@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   login:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Log in to Docker Hub
@@ -14,7 +14,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
     
   run-vmd:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: login
 
     steps:
@@ -59,7 +59,7 @@ jobs:
           path: ${{ github.workspace }}/output
           
   run-simulation-conf:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: login
 
     steps:
