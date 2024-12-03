@@ -69,15 +69,17 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
+          
 
       - name: Pull and run the Docker image
         run: |
           docker pull amdih/namd:2.15a2-20211101  
+      
 
       - name: Run 5 TCL Script
         run: |
           cd simulate
-          docker run -v ${{ github.workspace }}/output:/workspace -w /workspace amdih/namd:2.15a2-20211101 namd2 +p8 5rsa_wb_eq.conf -o /workspace/output
+          docker run --gpus all -v ${{ github.workspace }}/output:/workspace -w /workspace amdih/namd:2.15a2-20211101 namd2 +p8 5rsa_wb_eq.conf -o /workspace/output
 
       - name: List output directory contents
         run: ls -l ${{ github.workspace }}/output
