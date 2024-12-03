@@ -85,10 +85,10 @@ jobs:
           namd2 +p4 5rsa_wb_eq.conf > output/eq.log
   
       - name: List Output Directory Contents
-        run: ls -l ${{ github.workspace }}/simulate/output
+        run: ls -l ${{ github.workspace }}/simulate
   
       - name: Upload Simulation Results
         uses: actions/upload-artifact@v3
         with:
           name: simulation-results
-          path: ${{ github.workspace }}/simulate/output
+          path: ${{ github.workspace }}/simulate
