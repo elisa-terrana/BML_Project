@@ -60,7 +60,9 @@ jobs:
           
   run-simulation-conf:
     runs-on: ubuntu-latest
-    needs: run-vmd
+    needs: 
+      - login
+      - run-vmd
 
     steps:
       - name: Checkout Repository
