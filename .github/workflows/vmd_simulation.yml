@@ -69,28 +69,26 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          # sudo apt-get install -y nvidia-container-toolkit
-          # sudo systemctl restart docker
 
       - name: Pull and run the Docker image
         run: |
-          # docker pull amdih/namd:2.15a2-20211101
           docker pull carlosred/namd-cpu:latest
 
-      - name: Run 5 TCL Script
+      - name: Run NAMD Simulation
         run: |
           cd simulate
+          mkdir -p output
           docker run \
           -v ${{ github.workspace }}/simulate:/workspace \
           -w /workspace \
           carlosred/namd-cpu:latest \
-          namd2 +p4 5rsa_wb_eq.conf > eq.log &
-          
-      - name: List output directory contents
-        run: ls -l ${{ github.workspace }}/simulate
-
-      - name: Upload simulation results
+          namd2 +p4 5rsa_wb_eq.conf > output/eq.log
+  
+      - name: List Output Directory Contents
+        run: ls -l ${{ github.workspace }}/simulate/output
+  
+      - name: Upload Simulation Results
         uses: actions/upload-artifact@v3
         with:
           name: simulation-results
-          path: ${{ github.workspace }}/simulate
+          path: ${{ github.workspace }}/simulate/output
