@@ -12,6 +12,51 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+    
+  run-vmd:
+    runs-on: ubuntu-latest
+    needs: login
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+
+      - name: Pull and run the Docker image
+        run: |
+          docker pull activeeon/vmd
+          
+      - name: Run VMD Script
+        run: |
+          docker run -v ${{ github.workspace }}/output:/workspace -w /workspace activeeon/vmd vmd -dispdev text 5rsa.pdb -e set_protein.tcl -o /workspace/output
+
+      - name: Run Second TCL Script
+        run: |
+          docker run -v ${{ github.workspace }}/output:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args protein.pdb -e psfgen.tcl -o /workspace/output
+
+      - name: Run Third TCL Script
+        run: |
+          docker run -v ${{ github.workspace }}/output:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args system.psf system.pdb -e solvate.tcl -o /workspace/output
+
+      - name: Run 4 TCL Script
+        run: |
+          docker run -v ${{ github.workspace }}/output:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args solvated.psf solvated.pdb -e ionize.tcl -o /workspace/output
+
+      - name: Run 5 TCL Script
+        run: |
+          docker run -v ${{ github.workspace }}/output:/workspace -w /workspace activeeon/vmd vmd -dispdev text -args ionized.psf ionized.pdb -e simulate.tcl -o /workspace/output
+
+      - name: List output directory contents
+        run: ls -l ${{ github.workspace }}/output
+
+      - name: Upload simulation results
+        uses: actions/upload-artifact@v3
+        with:
+          name: simulation-results
+          path: ${{ github.workspace }}/output
           
   run-simulation-conf:
     runs-on: ubuntu-latest
@@ -27,9 +72,18 @@ jobs:
 
       - name: Pull and run the Docker image
         run: |
-          docker pull amdih/namd:2.15a2-20211101
-          
-      - name: Enter simulation folder and run 5rsa_wb_eq.conf
+          docker pull amdih/namd:2.15a2-20211101  
+
+      - name: Run 5 TCL Script
         run: |
           cd simulate
-          namd3 +p8 5rsa_wb_eq.conf
+          docker run -v ${{ github.workspace }}/output:/workspace -w /workspace amdih/namd:2.15a2-20211101 namd3 +p8 5rsa_wb_eq.conf -o /workspace/output
+
+      - name: List output directory contents
+        run: ls -l ${{ github.workspace }}/output
+
+      - name: Upload simulation results
+        uses: actions/upload-artifact@v3
+        with:
+          name: simulation-results
+          path: ${{ github.workspace }}/output
