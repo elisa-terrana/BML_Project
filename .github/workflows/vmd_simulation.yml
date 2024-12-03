@@ -84,7 +84,7 @@ jobs:
           -v ${{ github.workspace }}/output:/workspace \
           -w /workspace \
           carlosred/namd-cpu:latest \
-          namd2 +p4 5rsa_wb_eq.conf -o /workspace/output
+          namd2 +p2 5rsa_wb_eq.conf -o /workspace/output
           
       - name: List output directory contents
         run: ls -l ${{ github.workspace }}/output
