@@ -1,0 +1,35 @@
+name: Download Artifacts
+
+on: [push, pull_request]
+  workflow_dispatch:
+    inputs:
+      artifact-name:
+        description: "Name of the artifact to download"
+        required: true
+        default: "simulation-results"
+      target-folder:
+        description: "Folder to save the downloaded artifact"
+        required: false
+        default: "downloaded-artifacts"
+
+jobs:
+  download-artifacts-job:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Download the existing artifact
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: simulation-results
+          path: downloaded-artifacts/
+
+      # Step 2: Move artifacts to a specific folder
+      - name: Move Artifacts to Final Folder
+        run: |
+          mkdir -p final-folder
+          mv downloaded-artifacts/* final-folder/
+
+      # Step 3: Verify the files were moved
+      - name: List Files in Final Folder
+        run: ls -l final-folder
+
