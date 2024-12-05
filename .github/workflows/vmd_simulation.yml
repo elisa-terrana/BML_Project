@@ -31,15 +31,15 @@ jobs:
 
       - name: Run NAMD simulation
         run: |
-          cd simulate
-          docker run -v ${{ github.workspace }}/simulate:/workspace -w /workspace carlosred/namd-cpu:latest \
+          cd simulate_GLNU60L
+          docker run -v ${{ github.workspace }}/simulate_GLNU60L:/workspace -w /workspace carlosred/namd-cpu:latest \
           namd2 +p4 5rsa_wb_eq.conf > eq.log
   
       - name: List simulate directory contents
-        run: ls -l ${{ github.workspace }}/simulate
+        run: ls -l ${{ github.workspace }}/simulate_GLNU60L
   
       - name: Upload simulation results
         uses: actions/upload-artifact@v3
         with:
           name: simulation-results
-          path: ${{ github.workspace }}/simulate
+          path: ${{ github.workspace }}/simulate_GLNU60L
