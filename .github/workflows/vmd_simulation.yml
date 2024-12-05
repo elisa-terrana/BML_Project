@@ -33,7 +33,7 @@ jobs:
         run: |
           cd simulate_GLNU60L
           docker run -v ${{ github.workspace }}/simulate_GLNU60L:/workspace -w /workspace carlosred/namd-cpu:latest \
-          namd2 +p4 5rsa_wb_eq.conf > eq.log
+          namd2 +p4 GLNU60L_wb_eq.conf > eq.log
   
       - name: List simulate directory contents
         run: ls -l ${{ github.workspace }}/simulate_GLNU60L
