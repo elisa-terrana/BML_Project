@@ -17,13 +17,13 @@ jobs:
       # Make FoldX executable
       - name: Set up FoldX
         run: |
-          chmod +x tools/foldx5_1_Linux64/foldx_20241231
+          chmod +x tools/foldx5_1Linux64/foldx_20241231
 
       # Run FoldX
       - name: Run FoldX
         run: |
           cd foldx_114
-          tools/foldx5_1_Linux64/foldx_20241231 -f config.cfg
+          ../tools/foldx5_1Linux64/foldx_20241231 -f config.cfg
 
       # Save FoldX results as an artifact
       - name: Upload FoldX results as artifact
