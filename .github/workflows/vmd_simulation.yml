@@ -1,6 +1,9 @@
 name: NAMD Simulation
 
-on: [push, pull_request]
+on: 
+  push:
+    branches:
+      - simulation
 
 jobs:
   login:
