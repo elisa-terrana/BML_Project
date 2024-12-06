@@ -41,7 +41,6 @@ jobs:
 
       # Commit and push results to the repository
       - name: Commit and push results
-        if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub Actions token
         run: |
