@@ -36,8 +36,8 @@ jobs:
       # Copy results to the repository
       - name: Copy results to the repository
         run: |
-          mkdir -p saved_results/foldx
-          cp -r foldx_all_residues/output_foldx/* saved_results/foldx/
+          mkdir -p saved_results/foldx_all_residues
+          cp -r foldx_all_residues/output_foldx/* saved_results/foldx_all_residues/
 
       # Commit and push results to the repository
       - name: Commit and push results
@@ -47,7 +47,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git add saved_results/foldx/
+          git add saved_results/foldx_all_residues/
           git commit -m "Add FoldX results from workflow run" || echo "No changes to commit"
           git push origin run_foldx
 
