@@ -41,11 +41,14 @@ jobs:
 
       # Commit and push results to the repository
       - name: Commit and push results
+        if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub Actions token
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git add saved_results/foldx/
           git commit -m "Add FoldX results from workflow run" || echo "No changes to commit"
-          git push
+          git push origin run_foldx
+
