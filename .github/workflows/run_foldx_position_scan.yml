@@ -31,13 +31,13 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: foldx-results
-          path: output_114/
+          path: foldx_114/output_114/
 
       # Copy results to the repository
       - name: Copy results to the repository
         run: |
           mkdir -p saved_results/foldx
-          cp -r output_114/* saved_results/foldx/
+          cp -r foldx_114/output_114/* saved_results/foldx/
 
       # Commit and push results to the repository
       - name: Commit and push results
