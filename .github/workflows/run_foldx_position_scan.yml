@@ -1,0 +1,52 @@
+name: Run FoldX
+
+on:
+  push:
+    branches:
+      - run_foldx
+      
+jobs:
+  run-foldx:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Set up FoldX
+      - name: Install FoldX
+        run: |
+          mkdir foldx
+          wget https://foldxsuite.crg.eu/download/foldx -O foldx/foldx
+          chmod +x foldx/foldx
+
+      # Run FoldX
+      - name: Run FoldX
+        run: |
+          mkdir -p results
+          ./foldx/foldx -f config.cfg
+
+      # Save FoldX results as an artifact
+      - name: Upload FoldX results as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: foldx-results
+          path: results/
+
+      # Copy results to the repository
+      - name: Copy results to the repository
+        run: |
+          mkdir -p saved_results/foldx
+          cp -r results/* saved_results/foldx/
+
+      # Commit and push results to the repository
+      - name: Commit and push results
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub Actions token
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add saved_results/foldx/
+          git commit -m "Add FoldX results from workflow run" || echo "No changes to commit"
+          git push
