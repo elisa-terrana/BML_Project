@@ -5,14 +5,6 @@ on:
     branches:
       - run_foldx
 
-name: Run FoldX and Save Results
-
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch: # Allows manual triggering of the workflow
-
 jobs:
   run-foldx:
     runs-on: ubuntu-latest
