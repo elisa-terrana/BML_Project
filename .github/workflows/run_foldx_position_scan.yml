@@ -22,8 +22,8 @@ jobs:
       # Run FoldX
       - name: Run FoldX
         run: |
-          cd foldx_114
-          mkdir -p output_114
+          cd foldx_all_residues
+          mkdir -p output_foldx
           ../tools/foldx5_1Linux64/foldx_20241231 -f config.cfg
 
       # Save FoldX results as an artifact
@@ -31,13 +31,13 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: foldx-results
-          path: foldx_114/output_114/
+          path: foldx_all_residues/output_foldx/
 
       # Copy results to the repository
       - name: Copy results to the repository
         run: |
           mkdir -p saved_results/foldx
-          cp -r foldx_114/output_114/* saved_results/foldx/
+          cp -r foldx_all_residues/output_foldx/* saved_results/foldx/
 
       # Commit and push results to the repository
       - name: Commit and push results
