@@ -4,7 +4,15 @@ on:
   push:
     branches:
       - run_foldx
-      
+
+name: Run FoldX and Save Results
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual triggering of the workflow
+
 jobs:
   run-foldx:
     runs-on: ubuntu-latest
@@ -14,31 +22,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Set up FoldX
-      - name: Install FoldX
+      # Make FoldX executable
+      - name: Set up FoldX
         run: |
-          mkdir foldx
-          wget https://foldxsuite.crg.eu/download/foldx -O foldx/foldx
-          chmod +x foldx/foldx
+          chmod +x tools/foldx5_1_Linux64/foldx_20241231
 
       # Run FoldX
       - name: Run FoldX
         run: |
-          mkdir -p results
-          ./foldx/foldx -f config.cfg
+          cd foldx_114
+          tools/foldx5_1_Linux64/foldx_20241231 -f config.cfg
 
       # Save FoldX results as an artifact
       - name: Upload FoldX results as artifact
         uses: actions/upload-artifact@v3
         with:
           name: foldx-results
-          path: results/
+          path: output_114/
 
       # Copy results to the repository
       - name: Copy results to the repository
         run: |
           mkdir -p saved_results/foldx
-          cp -r results/* saved_results/foldx/
+          cp -r output_114/* saved_results/foldx/
 
       # Commit and push results to the repository
       - name: Commit and push results
