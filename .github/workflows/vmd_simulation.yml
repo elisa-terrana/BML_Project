@@ -34,15 +34,33 @@ jobs:
 
       - name: Run NAMD simulation
         run: |
-          cd simulate_GLNU60L
-          docker run -v ${{ github.workspace }}/simulate_GLNU60L:/workspace -w /workspace carlosred/namd-cpu:latest \
-          namd2 +p4 GLNU60L_wb_eq.conf > eq.log
+          cd simulate_A53_E83
+          docker run -v ${{ github.workspace }}/simulate_A53_E83:/workspace -w /workspace carlosred/namd-cpu:latest \
+          namd2 +p4 A53_E83_wb_eq.conf > eq.log
   
       - name: List simulate directory contents
-        run: ls -l ${{ github.workspace }}/simulate_GLNU60L
+        run: ls -l ${{ github.workspace }}/simulate_A53_E83
   
       - name: Upload simulation results
         uses: actions/upload-artifact@v3
         with:
           name: simulation-results
-          path: ${{ github.workspace }}/simulate_GLNU60L
+          path: ${{ github.workspace }}/simulate_A53_E83
+
+      # Copy A53_E83 results to the repository
+      - name: Copy A53_E83 results to the repository
+        run: |
+          mkdir -p saved_results/foldx_A53_E83
+          cp -r foldx_A53_E83/output_foldx/* saved_results/foldx_A53_E83/
+
+      # Commit and push A53_E83 results to the repository
+      - name: Commit and push A53_E83 results
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub Actions token
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add saved_results/foldx_A53_E83/
+          git commit -m "Add FoldX results for A53_E83 from workflow run" || echo "No changes to commit"
+          git push origin run_foldx
