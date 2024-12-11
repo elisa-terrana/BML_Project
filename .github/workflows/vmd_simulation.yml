@@ -31,15 +31,15 @@ jobs:
 
       - name: Run NAMD simulation
         run: |
-          cd simulate_GLNU60L
-          docker run -v ${{ github.workspace }}/simulate_GLNU60L:/workspace -w /workspace carlosred/namd-cpu:latest \
-          namd2 +p4 GLNU60L_wb_eq.conf > eq.log
+          cd foldx_buildmodel_6MUT
+          docker run -v ${{ github.workspace }}/foldx_buildmodel_6MUT:/workspace -w /workspace carlosred/namd-cpu:latest \
+          namd2 +p4 6MUT_wb_eq.conf > eq.log
   
       - name: List simulate directory contents
-        run: ls -l ${{ github.workspace }}/simulate_GLNU60L
+        run: ls -l ${{ github.workspace }}/foldx_buildmodel_6MUT
   
       - name: Upload simulation results
         uses: actions/upload-artifact@v3
         with:
           name: simulation-results
-          path: ${{ github.workspace }}/simulate_GLNU60L
+          path: ${{ github.workspace }}/foldx_buildmodel_6MUT
