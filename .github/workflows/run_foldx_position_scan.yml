@@ -22,7 +22,7 @@ jobs:
       # Run FoldX
       - name: Run FoldX
         run: |
-          cd foldx_all_residues
+          cd foldx_all_residues_5rsa
           mkdir -p output_foldx
           ../tools/foldx5_1Linux64/foldx_20241231 -f config.cfg
 
@@ -31,13 +31,13 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: foldx-results
-          path: foldx_all_residues/output_foldx/
+          path: foldx_all_residues_5rsa_1part/output_foldx/
 
       # Copy results to the repository
       - name: Copy results to the repository
         run: |
-          mkdir -p saved_results/foldx_all_residues
-          cp -r foldx_all_residues/output_foldx/* saved_results/foldx_all_residues/
+          mkdir -p saved_results/foldx_all_residues_5rsa_1part
+          cp -r foldx_all_residues_5rsa_1part/output_foldx/* saved_results/foldx_all_residues_5rsa_1part/
 
       # Commit and push results to the repository
       - name: Commit and push results
@@ -47,7 +47,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git add saved_results/foldx_all_residues/
+          git add saved_results/foldx_all_residues_5rsa_1part/
           git commit -m "Add FoldX results from workflow run" || echo "No changes to commit"
           git push origin run_foldx
 
