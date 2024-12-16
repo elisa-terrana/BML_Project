@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - simulation
-      - run_foldx
 
 jobs:
   login:
