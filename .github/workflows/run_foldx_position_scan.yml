@@ -22,7 +22,7 @@ jobs:
       # Run FoldX
       - name: Run FoldX
         run: |
-          cd foldx_all_residues_5rsa
+          cd foldx_all_residues_5rsa_1part
           mkdir -p output_foldx
           ../tools/foldx5_1Linux64/foldx_20241231 -f config.cfg
 
